@@ -1,0 +1,23 @@
+Sub AddFadeAnimationToTextBoxes()
+    Dim slide As slide
+    Dim shape As shape
+    Dim animation As Effect
+
+    ' Loop through each slide in the presentation
+    For Each slide In ActivePresentation.Slides
+        ' Loop through each shape in the slide
+        For Each shape In slide.Shapes
+            ' Check if the shape is a text box
+            If shape.HasTextFrame Then
+                ' Add a fade-in animation effect to the text box
+                Set animation = slide.TimeLine.MainSequence.AddEffect(shape:=shape, effectId:=msoAnimEffectFade)
+                ' Set the animation to start after previous, with a 3-second delay
+                With animation.Timing
+                    .TriggerType = msoAnimTriggerAfterPrevious
+                    .TriggerDelayTime = 3 ' Delay in seconds
+                End With
+            End If
+        Next shape
+    Next slide
+End Sub
+
